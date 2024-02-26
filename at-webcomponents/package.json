@@ -1,0 +1,23 @@
+{
+  "name": "@at/webcomponents",
+  "version": "0.0.1",
+  "type": "module",
+  "files": ["dist"],
+  "main": "./dist/at-webcomponents.umd.cjs",
+  "module": "./dist/at-webcomponents.js",
+  "types": "./dist/main.d.ts",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && tsc --build --force",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.20",
+    "typescript": "^5.2.2",
+    "vite": "^5.1.4"
+  },
+  "dependencies": {
+    "reflect-metadata": "^0.2.1"
+  }
+}
