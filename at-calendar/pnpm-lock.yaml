@@ -6,8 +6,11 @@ settings:
 
 dependencies:
   '@at/webcomponents':
-    specifier: file:../at-webcomponents
-    version: file:../at-webcomponents
+    specifier: link:../at-webcomponents
+    version: link:../at-webcomponents
+  reflect-metadata:
+    specifier: ^0.2.1
+    version: 0.2.1
 
 devDependencies:
   typescript:
@@ -463,10 +466,3 @@ packages:
     optionalDependencies:
       fsevents: 2.3.3
     dev: true
-
-  file:../at-webcomponents:
-    resolution: {directory: ../at-webcomponents, type: directory}
-    name: '@at/webcomponents'
-    dependencies:
-      reflect-metadata: 0.2.1
-    dev: false

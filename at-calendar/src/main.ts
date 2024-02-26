@@ -1,7 +1,15 @@
+import { AtCalendarMonths } from './at-calendar-months/at-calendar-months.component';
 import './style.css'
-import { Enhancer } from "@at/webcomponents";
+import { Child, Component } from "@at/webcomponents";
 
-@Enhancer("at-calendar")
-export class AtCalendar {
+@Component("at-calendar")
+export class AtCalendar extends HTMLElement {
+
+    @Child(AtCalendarMonths.selector)
+    months?: AtCalendarMonths;
+
+    constructor() {
+        super();
+    }
 
 }

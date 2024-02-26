@@ -12,11 +12,16 @@ type EventMap = {
 };
 
 function ComponentDeco(
-  name: string,
+  cName: string,
   extendsTag?: TagsNames,
   template?: string
 ): ClassDecorator {
+
+  console.debug("calling decorator definition for ", cName, extendsTag, template);
+
   function classDeco(target: any) {
+    console.debug("calling decorator instance for target", target, cName, extendsTag, template);
+
     const CustomComponent = class extends target {
       static get observedAttributes() {
         return Reflect.getMetadata(observedAttributesMetadata, this) ?? [];
@@ -52,6 +57,9 @@ function ComponentDeco(
         last: any
       ) {
         let type = Reflect.getMetadata('design:type', this, propName);
+        if (type == null) {
+          throw new Error(`can not find the type for property <${propName}> in ${this.name}`)
+        }
         this[propName] = parseAttribute(newValue, type.name);
         super.attributeChangedCallback?.(propName, old, newValue, last);
       }
@@ -71,8 +79,10 @@ function ComponentDeco(
       }
     };
 
+    console.log("define ", cName)
+
     customElements.define(
-      name,
+      cName,
       CustomComponent as any,
       extendsTag ? { extends: extendsTag } : undefined
     );

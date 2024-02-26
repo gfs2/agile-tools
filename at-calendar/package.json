@@ -13,6 +13,7 @@
     "vite": "^5.1.4"
   },
   "dependencies": {
-    "@at/webcomponents": "file:../at-webcomponents"
+    "@at/webcomponents": "link:../at-webcomponents",
+    "reflect-metadata": "^0.2.1"
   }
 }

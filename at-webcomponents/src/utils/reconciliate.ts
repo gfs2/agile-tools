@@ -17,8 +17,8 @@ function itemAndNodeMatches<T, E extends HTMLElement>(
     TNode extends HTMLElement,
     TNodeKey extends keyof TNode
   >(
-    data: TItem[],
-    items: () => NodeListOf<TNode>,
+    data: TItem[] | undefined = [],
+    items: () => NodeListOf<TNode> | undefined,
     dataKey: TItemKey,
     nodeKey: TNodeKey,
     propertySetter: (item: TItem, element: TNode) => void,
@@ -26,17 +26,15 @@ function itemAndNodeMatches<T, E extends HTMLElement>(
     parent: HTMLElement
   ) {
     // get actually exisisting elements
-    const nodeArr = Array.from(items());
-    const existingElements = data
-      .map((item) =>
-        nodeArr.find((node) => itemAndNodeMatches(item, dataKey, node, nodeKey))
-      )
-      .filter((el) => el != null);
+    const nodeArr = Array.from(items() ?? []);
+    const existingElements = data?.map((item) =>
+      nodeArr.find((node) => itemAndNodeMatches(item, dataKey, node, nodeKey))
+    ).filter((el) => el != null) ?? [];
     // remove lost elements
     nodeArr.forEach((el) => (existingElements.includes(el) ? null : el.remove()));
   
     // add or move
-    data.forEach((item, index) => {
+    data?.forEach((item, index) => {
       let elementIndex = existingElements.filter(notNull).findIndex((node) =>
         itemAndNodeMatches(item, dataKey, node, nodeKey)
       );
@@ -49,8 +47,9 @@ function itemAndNodeMatches<T, E extends HTMLElement>(
         throw new Error(`unable to find element ${JSON.stringify(item)}`);
       }
       // check if reoder is needed
-      if (index === 0 || !items()[index - 1]) parent.prepend(element);
-      else items()[index - 1].insertAdjacentElement('afterend', element);
+      const prevItem = items()?.[index - 1];
+      if (index === 0 || !prevItem) parent.prepend(element);
+      else prevItem.insertAdjacentElement('afterend', element);
   
       // setting all properties
       propertySetter(item, element);
